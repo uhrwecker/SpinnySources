@@ -17,6 +17,7 @@ import numpy as np
 def plot_constants_of_motion(dss):
     fig1, (ax1, ax2, ax3) = pl.subplots(3, 1, figsize=(15, 15), sharex=True)
 
+
     for n, ds in enumerate(dss):
         pc.plot_com(ds, ax1, ax2, ax3, n)
 
