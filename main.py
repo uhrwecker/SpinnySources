@@ -137,7 +137,6 @@ def main():
     ga = []
     ass = []
     bss = []
-    inn = []
     for s, f, ax in fp:
         d0 = TrajectoryResults('A:/Dokumente/Data/centre_geod/'+f+'1/up_1.57079633')
         g0 = g(d0)
@@ -162,15 +161,6 @@ def main():
         gridx, gridy = np.mgrid[amin:amax:1000j, bmin:bmax:1000j]
 
         res = griddata(data, gs, (gridx, gridy), method='linear')
-        a = []
-
-        for row in res.T:
-            mask = np.logical_not(np.isnan(row))
-            r = np.trapz(row[mask]**3, gridy[0][mask])
-            a.append(r)
-        integral = np.trapz(np.array(a), gridx[:, 0])
-        inn.append(integral)
-
 
         ax.scatter(amin, bmin, s=0, label=f's = {s}')
         rim = ax.imshow(res.T, extent=(amin, amax, bmin, bmax), cmap=cmap, norm=norm)
@@ -184,8 +174,6 @@ def main():
     ga = np.array(ga)
     ass = np.array(ass)
     bss = np.array(bss)
-
-    print(len(inn))
 
     ax.set_xlim(np.amin(ass), np.amax(ass))
     ax.set_ylim(np.amin(bss), np.amax(bss))
@@ -203,9 +191,6 @@ def main():
     print(np.amin(ass), np.amax(ass))
     print(np.amin(bss), np.amax(bss))
     print(np.amin(ga), np.amax(ga))
-
-    pl.figure()
-    pl.scatter([-1, -0.75, -0.5, -0.25, 0, 0.25, 0.5, 0.75, 1], inn)
 
     pl.show()
 
