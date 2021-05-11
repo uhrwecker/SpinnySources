@@ -161,6 +161,14 @@ def main():
         gridx, gridy = np.mgrid[amin:amax:1000j, bmin:bmax:1000j]
 
         res = griddata(data, gs, (gridx, gridy), method='linear')
+        a = []
+        for row in res.T:
+            mask = np.logical_not(np.isnan(row))
+            r = np.trapz(row[mask], gridx[:, 0][mask])
+            a.append(r)
+        integral = np.trapz(np.array(a), gridy[0])
+        print(integral)
+
 
         ax.scatter(amin, bmin, s=0, label=f's = {s}')
         rim = ax.imshow(res.T, extent=(amin, amax, bmin, bmax), cmap=cmap, norm=norm)
@@ -174,6 +182,8 @@ def main():
     ga = np.array(ga)
     ass = np.array(ass)
     bss = np.array(bss)
+
+
 
     ax.set_xlim(np.amin(ass), np.amax(ass))
     ax.set_ylim(np.amin(bss), np.amax(bss))
