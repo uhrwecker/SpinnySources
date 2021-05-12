@@ -122,7 +122,7 @@ def atan2(y, x, tol=1e-4):
 
 def main():
     #path = 'A:/Dokumente/Data/centre_geod/'
-    path = 'A:/Dokumente/Data/sphere_geod/phi_05_pi/'
+    path = '/media/jan-menno/10F4-2B64/2021_04_26/phi_05_pi/'
     from scipy.interpolate import griddata
 
     fig, ((ax1, ax2, ax3), (ax4, ax5, ax6), (ax7, ax8, ax9)) = pl.subplots(3, 3, figsize=(10, 10), sharex=True,
@@ -138,8 +138,8 @@ def main():
     ass = []
     bss = []
     for s, f, ax in fp:
-        d0 = TrajectoryResults('A:/Dokumente/Data/centre_geod/'+f+'1/up_1.57079633')
-        g0 = g(d0)
+        #d0 = TrajectoryResults('/media/jan-menno/10F4-2B64/2021_04_13/'+f+'1/up_1.57079633')
+        #g0 = g(d0)
         ds0 = Dataset(s, path+f, False)
 
         data, gs, ax = plot_solid_angle([ds0], False, ax)
@@ -203,6 +203,7 @@ def new():
 
     pmin, pmax = get_phiminmax(8, 1.5*np.pi, np.pi/2, 0.2)
     tmin, tmax = get_thetaminmax(8, 1.5*np.pi, np.pi/2, 0.2)
+    ds0 = []
 
     for quad in ds0.get_all():
         for dp in quad.values():
