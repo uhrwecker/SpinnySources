@@ -122,7 +122,8 @@ def atan2(y, x, tol=1e-4):
 
 def main():
     #path = 'A:/Dokumente/Data/centre_geod/'
-    path = '/media/jan-menno/10F4-2B64/2021_04_26/phi_05_pi/'
+    path = 'A:/Dokumente/Data/sphere_geod/phi_05_pi/'
+    #path = '/media/jan-menno/10F4-2B64/2021_04_26/phi_05_pi/'
     from scipy.interpolate import griddata
 
     fig, ((ax1, ax2, ax3), (ax4, ax5, ax6), (ax7, ax8, ax9)) = pl.subplots(3, 3, figsize=(10, 10), sharex=True,
@@ -137,6 +138,7 @@ def main():
     ga = []
     ass = []
     bss = []
+    integral = []
     for s, f, ax in fp:
         #d0 = TrajectoryResults('/media/jan-menno/10F4-2B64/2021_04_13/'+f+'1/up_1.57079633')
         #g0 = g(d0)
@@ -161,6 +163,12 @@ def main():
         gridx, gridy = np.mgrid[amin:amax:1000j, bmin:bmax:1000j]
 
         res = griddata(data, gs, (gridx, gridy), method='linear')
+        a = []
+        for row in res.T:
+            mask = np.logical_not(np.isnan(row))
+            r = np.trapz(1/0.2**2 * row[mask]**4, gridx[:, 0][mask])
+            a.append(r)
+        integral.append(np.trapz(np.array(a), gridy[0]))
 
         ax.scatter(amin, bmin, s=0, label=f's = {s}')
         rim = ax.imshow(res.T, extent=(amin, amax, bmin, bmax), cmap=cmap, norm=norm)
@@ -187,6 +195,12 @@ def main():
     ax9.set_xlabel(r'$\alpha$')
 
     #fig.colorbar(rim, cax=axcb)
+    pl.figure(figsize=(8, 5))
+    print([item[0] for item in fp], integral)
+    pl.scatter([item[0] for item in fp], integral)
+    pl.xlabel('s')
+    pl.ylabel(r'$F_{obs}$ / $F_N$')
+    pl.grid()
 
     print(np.amin(ass), np.amax(ass))
     print(np.amin(bss), np.amax(bss))
