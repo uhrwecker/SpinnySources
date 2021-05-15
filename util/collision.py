@@ -34,9 +34,9 @@ def check_if_inside(dp, tmin, tmax, pmin, pmax):
     c = np.intersect1d(idx3, idx1)
 
     if a.size and b.size and c.size:
-        print(p[np.intersect1d(a, idx3)])
-        print(r[np.intersect1d(a, idx3)])
-        print(t[np.intersect1d(a, idx3)])
+        #print(p[np.intersect1d(a, idx3)])
+        #print(r[np.intersect1d(a, idx3)])
+        #print(t[np.intersect1d(a, idx3)])
         return np.intersect1d(a, idx3)
     else:
         #print(dpr)#

@@ -65,10 +65,10 @@ def plot_solid_angle(ds, both=True, ax=None):
 
     else:
         j = 0
-        pmin, pmax = get_phiminmax(8, 0.5 * np.pi, np.pi / 2, 0.2)
-        tmin, tmax = get_thetaminmax(8, 0.5 * np.pi, np.pi / 2, 0.2)
+        pmin, pmax = get_phiminmax(8, 0.5 * np.pi, 3*np.pi / 2, 0.2)
+        tmin, tmax = get_thetaminmax(8, 0.5 * np.pi, 3*np.pi / 2, 0.2)
         print(pmin, pmax, tmin, tmax)
-        pmax -= np.pi
+        #pmax += np.pi
 
         for ds0 in ds:
             all = []
@@ -82,13 +82,16 @@ def plot_solid_angle(ds, both=True, ax=None):
                     #    print(j)
                     #    j += 1
                     #else:
-                    if dp.r0 >= 8.:
-                        phi2.append(alpha(dp))
-                        th2.append(beta(dp))
-                        all.append([alpha(dp), beta(dp)])
-                        gs.append(g(dp))
+                    col = check_if_inside(dp, tmin, tmax, pmin, pmax)
+                    if len(col) > 0:
+                        if len(col) < 100:#dp.r0 <= 8.:
+                            print(pmin)
+                            phi2.append(alpha(dp))
+                            th2.append(beta(dp))
+                            all.append([alpha(dp), beta(dp)])
+                            gs.append(g(dp))
 
-                ax.scatter(phi2, th2, c='black', s=1)
+                #ax.scatter(phi2, th2, c='black', s=1)
                 print(len(phi2))
                 #ax.scatter(0.03457183975193295, 7.159903237573876, c=colors[i], marker='x')
 
@@ -122,18 +125,18 @@ def atan2(y, x, tol=1e-4):
 
 def main():
     #path = 'A:/Dokumente/Data/centre_geod/'
-    path = 'A:/Dokumente/Data/sphere_geod/phi_05_pi/'
+    path = 'A:/Dokumente/Data/sphere_geod/phi_3-2_pi/'
     #path = '/media/jan-menno/10F4-2B64/2021_04_26/phi_05_pi/'
     from scipy.interpolate import griddata
 
-    fig, ((ax1, ax2, ax3), (ax4, ax5, ax6), (ax7, ax8, ax9)) = pl.subplots(3, 3, figsize=(10, 10), sharex=True,
+    fig, ((ax1, ax2, ax3), (ax4, ax5, ax6), (ax7, ax8, ax9)) = pl.subplots(3, 3, figsize=(12, 12), sharex=True,
                                                                            sharey=True)
     fp = [(-1, 's-1/', ax1), (-0.75, 's-075/', ax2), (-0.5, 's-05/', ax3),
           (-0.25, 's-025/', ax4), (0, 's0/', ax5), (0.25, 's025/', ax6),
           (0.5, 's05/', ax7), (0.75, 's075/', ax8), (1, 's1/', ax9)]
 
     cmap = pl.cm.cool_r
-    norm = mp.colors.Normalize(1.0893496402614364, 1.1694971704654886)
+    norm = mp.colors.Normalize(1.08043351264794, 1.1798679505600176)
 
     ga = []
     ass = []
@@ -172,11 +175,12 @@ def main():
 
         ax.scatter(amin, bmin, s=0, label=f's = {s}')
         rim = ax.imshow(res.T, extent=(amin, amax, bmin, bmax), cmap=cmap, norm=norm)
+        ax.scatter(data[:, 0], data[:, 1], c='black', s=1)
 
-        if s == -0.5 or s == 0.25 or s == 1:
-            divider = make_axes_locatable(ax)
-            cax = divider.append_axes('right', size='5%', pad=0.05)
-            fig.colorbar(rim, cax=cax, orientation='vertical')
+        #if s == -0.5 or s == 0.25 or s == 1:
+        #    divider = make_axes_locatable(ax)
+        #    cax = divider.append_axes('right', size='5%', pad=0.05)
+        #    fig.colorbar(rim, cax=cax, orientation='vertical')
         ax.legend()#, gridx.T, gridx.T, shading='gouraud')
 
     ga = np.array(ga)
@@ -184,7 +188,7 @@ def main():
     bss = np.array(bss)
 
     ax.set_xlim(np.amin(ass), np.amax(ass))
-    ax.set_ylim(np.amin(bss), np.amax(bss))
+    #ax.set_ylim(np.amin(bss), np.amax(bss))
 
     ax1.set_ylabel(r'$\beta$')
     ax4.set_ylabel(r'$\beta$')
