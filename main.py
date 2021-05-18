@@ -65,8 +65,8 @@ def plot_solid_angle(ds, both=True, ax=None):
 
     else:
         j = 0
-        pmin, pmax = get_phiminmax(8, 0.5 * np.pi, 3*np.pi / 2, 0.2)
-        tmin, tmax = get_thetaminmax(8, 0.5 * np.pi, 3*np.pi / 2, 0.2)
+        pmin, pmax = get_phiminmax(8, 0.5 * np.pi, np.pi / 2, 0.2)
+        tmin, tmax = get_thetaminmax(8, 0.5 * np.pi, np.pi / 2, 0.2)
         print(pmin, pmax, tmin, tmax)
         #pmax += np.pi
 
@@ -83,13 +83,13 @@ def plot_solid_angle(ds, both=True, ax=None):
                     #    j += 1
                     #else:
                     col = check_if_inside(dp, tmin, tmax, pmin, pmax)
-                    if len(col) > 0:
-                        if len(col) < 100:#dp.r0 <= 8.:
-                            print(pmin)
-                            phi2.append(alpha(dp))
-                            th2.append(beta(dp))
-                            all.append([alpha(dp), beta(dp)])
-                            gs.append(g(dp))
+                    if dp.r0 >= 8:#len(col) <= 7:
+                        #if len(col) < 100:#dp.r0 <= 8.:
+                        print(pmin)
+                        phi2.append(alpha(dp))
+                        th2.append(beta(dp))
+                        all.append([alpha(dp), beta(dp)])
+                        gs.append(g(dp))
 
                 #ax.scatter(phi2, th2, c='black', s=1)
                 print(len(phi2))
@@ -98,15 +98,6 @@ def plot_solid_angle(ds, both=True, ax=None):
             i += 1
 
     p = np.linspace(0, np.pi * 2, num=1000)
-    #ax.plot(np.cos(p), np.sin(p), c='black')
-
-    #ax.set_xlim(-11, 11)
-    #ax.set_ylim(-11, 11)
-
-    #ax.set_xlabel(r'$\alpha$')
-    #ax.set_ylabel(r'$\beta$')
-    #ax.grid()
-    #ax.legend()
 
     return np.array(all), np.array(gs), ax
 
@@ -125,7 +116,7 @@ def atan2(y, x, tol=1e-4):
 
 def main():
     #path = 'A:/Dokumente/Data/centre_geod/'
-    path = 'A:/Dokumente/Data/sphere_geod/phi_3-2_pi/'
+    path = 'A:/Dokumente/Data/sphere_geod/phi_05_pi/'
     #path = '/media/jan-menno/10F4-2B64/2021_04_26/phi_05_pi/'
     from scipy.interpolate import griddata
 
@@ -163,7 +154,7 @@ def main():
         bss.append(bmin)
         bss.append(bmax)
 
-        gridx, gridy = np.mgrid[amin:amax:1000j, bmin:bmax:1000j]
+        gridx, gridy = np.mgrid[amin:amax:100j, bmin:bmax:100j]
 
         res = griddata(data, gs, (gridx, gridy), method='linear')
         a = []

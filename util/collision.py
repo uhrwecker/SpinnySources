@@ -34,12 +34,20 @@ def check_if_inside(dp, tmin, tmax, pmin, pmax):
     c = np.intersect1d(idx3, idx1)
 
     if a.size and b.size and c.size:
-        #print(p[np.intersect1d(a, idx3)])
-        #print(r[np.intersect1d(a, idx3)])
-        #print(t[np.intersect1d(a, idx3)])
+        print(r[np.intersect1d(a, idx3)])
+        print(t[np.intersect1d(a, idx3)])
+        print(p[np.intersect1d(a, idx3)])
         return np.intersect1d(a, idx3)
     else:
-        #print(dpr)#
-
-        #print(a, b, c)
         return np.array([])
+
+#from data.trajectory import TrajectoryResults
+#from util.solid_angles import get_phiminmax, get_thetaminmax##
+
+#dp = TrajectoryResults('A:/Dokumente/Data/sphere_geod/phi_05_pi/s0/8.18578505_1.57623312_1.56343536')
+#pmin, pmax = get_phiminmax(8, 0.5 * np.pi, np.pi / 2, 0.2)
+#tmin, tmax = get_thetaminmax(8, 0.5 * np.pi, np.pi / 2, 0.2)
+
+#print(tmin, tmax)
+#print(pmin, (pmax+np.pi)%(2*np.pi))
+#print(check_if_inside(dp, tmin, tmax, tmin, tmax))
