@@ -36,6 +36,15 @@ def beta(dp):
     return factor * np.sqrt(np.abs((dp.Qph - dp.Lph**2 * np.tan(thobs)**(-2)) / root))
 
 
+def lamda(r, t, al, be):
+    return -al * np.sin(t) / np.sqrt(1 - 2/r) * np.sqrt(r**2 / (be**2 + al**2 + r**2))
+
+
+def qu(r, t, al, be):
+    l = -al * np.sin(t) / np.sqrt(1 - 2/r) * np.sqrt(r**2 / (be**2 + al**2 + r**2))
+    return l**2 * (be**2 / (al**2 * np.sin(t)**2) + 1 / np.tan(t)**2)
+
+
 def get_phi(x, y, tol):
     sig = []
 
@@ -74,3 +83,4 @@ def get_thetaminmax(r0, phi0, theta0, dr):
     theta = np.arccos(psi_z / rho)
 
     return np.amin(theta), np.amax(theta)
+

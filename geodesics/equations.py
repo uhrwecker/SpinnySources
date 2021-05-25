@@ -23,6 +23,6 @@ def geod(w, t):
          thd,
          -2 / r * rd * thd + np.cos(th) * np.sin(th) * phid ** 2,
          phid,
-         - 2 / r * rd * phid - 2 / np.tan(th) * thd * phid ]
+         - 2 / r * rd * phid - 2 / np.tan(th) * thd * phid]
 
     return f
