@@ -21,7 +21,7 @@ def alpha(dp):
     thobs = dp.theta_obs
     root = np.sqrt(dp.Eph**2 / (1 - 2/robs) - (dp.Qph + dp.Lph**2) / robs**2)
 
-    return dp.Lph / (np.sin(thobs) * root)
+    return -dp.Lph / (np.sin(thobs) * root)
 
 
 def beta(dp):

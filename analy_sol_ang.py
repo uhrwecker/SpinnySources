@@ -38,10 +38,10 @@ def main():
     r = 15
     t = 1.25
 
-    amin = -0.6
-    amax = 0.6
-    bmin = 7
-    bmax = 7.4
+    bmin = -0.3
+    bmax = 0.3
+    amax = 10.5
+    amin = 9.8
 
     NUM = 70
 
@@ -51,7 +51,7 @@ def main():
     #fig, ax = pl.subplots(1, 1, figsize=(10, 10))
 
     cmap = pl.cm.cool_r
-    norm = mp.colors.Normalize(1.079910063865601, 1.1795882553110675)
+    norm = mp.colors.Normalize(0.7197263059861253, 0.7813565661483185)
 
     fff = [(-1, 's-1/', ax1), (-0.75, 's-075/', ax2), (-0.5, 's-05/', ax3),
           (-0.25, 's-025/', ax4), (0, 's0/', ax5), (0.25, 's025/', ax6),
@@ -62,8 +62,10 @@ def main():
 
     for s, fp, ax in fff:
         print(s)
-        path = f'A:/Dokumente/Data/centre_geod/{fp}3/up_4.71238898'
+        path = f'A:/Dokumente/Data/centre_geod/{fp}2/up_3.14159265'
         dp = TrajectoryResults(path)
+        print(dp.Lph / dp.Eph)
+        print(dp.Qph / dp.Eph**2)
 
         mat = generate_hit_matrix(dp.vphi, phi=dp.phi0, ft=-1, bmin=bmin, bmax=bmax, amin=amin, amax=amax, num=NUM)
 

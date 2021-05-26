@@ -47,11 +47,10 @@ def generate_hit_matrix(vphi, phi=np.pi/2, fr=-1, ft=1,
             l = lamda(r0, t0, alpha, beta)
             q = qu(r0, t0, alpha, beta)
 
+            #if phi <= (np.pi+1e-2):
+            #    l *= -1
 
-            if phi >= (np.pi+1e-2):
-                l *= -1
-
-            res = solve(0, r0, t0, phi0, l, q, fr=fr, ft=ft)
+            res = solve(0, r0, t0, phi0, -l, q, fr=fr, ft=ft)
             num = check_if_hit(res, phi)
             if num:
                 row.append(g_from_l(l, 8, 15, vphi))
